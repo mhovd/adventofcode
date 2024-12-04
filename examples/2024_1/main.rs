@@ -1,6 +1,5 @@
 use anyhow::{Context, Result};
 use serde::Deserialize;
-use std::fs::File;
 
 #[derive(Debug, Deserialize)]
 struct Row {
