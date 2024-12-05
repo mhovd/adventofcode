@@ -24,7 +24,12 @@ impl Report {
     // The levels are either all increasing or all decreasing.
     fn same_sign(&self) -> bool {
         // Check if the sign is the same for all diffs, i.e. abs(sum) == len
-        let signs = self.levels.iter().map(|&x| x.signum()).collect::<Vec<_>>();
+        let mut diffs = Vec::new();
+        for i in 0..self.levels.len() - 1 {
+            diffs.push(self.levels[i + 1] - self.levels[i]);
+        }
+
+        let signs = diffs.iter().map(|&x| x.signum()).collect::<Vec<_>>();
         let all_negative = signs.iter().all(|&x| x == -1);
         let all_positive = signs.iter().all(|&x| x == 1);
         all_negative || all_positive
