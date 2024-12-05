@@ -18,7 +18,9 @@ impl Report {
         }
 
         // Check that the diffs are within 1 to 3
-        diffs.iter().all(|&x| x >= 1 && x <= 3)
+        diffs
+            .iter()
+            .all(|&x| (x >= 1 && x <= 3) || (x <= -1 && x >= -3))
     }
 
     // The levels are either all increasing or all decreasing.
