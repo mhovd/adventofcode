@@ -80,7 +80,7 @@ fn main() -> Result<()> {
     let mut safe_reports: Vec<Report> = Vec::new();
 
     // iterate over the reports
-    for report in reports {
+    for report in reports.clone() {
         if report.safe() {
             safe_reports.push(report);
         }
@@ -88,6 +88,29 @@ fn main() -> Result<()> {
 
     // 118 is too low
     println!("Safe reports: {}", safe_reports.len());
+
+    let mut safe_reports: Vec<Report> = Vec::new();
+    // check reports again
+    for report in reports.clone() {
+        if report.safe() {
+            safe_reports.push(report);
+        } else {
+            for i in 0..report.levels.len() {
+                let mut new_report = report.clone();
+                new_report.levels.remove(i);
+                if new_report.safe() {
+                    safe_reports.push(new_report);
+                    break;
+                }
+            }
+        }
+    }
+
+    println!(
+        "Safe reports after error correction: {}",
+        safe_reports.len()
+    );
+
     Ok(())
 }
 
