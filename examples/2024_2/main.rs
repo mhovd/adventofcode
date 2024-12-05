@@ -23,7 +23,9 @@ impl Report {
     fn same_sign(&self) -> bool {
         // Check if the sign is the same for all diffs, i.e. abs(sum) == len
         let signs = self.levels.iter().map(|&x| x.signum()).collect::<Vec<_>>();
-        signs.iter().sum::<isize>().abs() == signs.len() as isize
+        let all_negative = signs.iter().all(|&x| x == -1);
+        let all_positive = signs.iter().all(|&x| x == 1);
+        all_negative || all_positive
     }
 
     fn safe(&self) -> bool {
@@ -92,10 +94,7 @@ mod tests {
             levels: vec![7, 6, 4, 2, 1],
         };
 
-        println!("{:?}", report.valid_diffs());
-
-        assert!(report.valid_diffs());
-        assert!(report.same_sign());
+        assert!(report.safe());
     }
     #[test]
     fn test_unsafe() {
@@ -103,7 +102,6 @@ mod tests {
             levels: vec![1, 2, 7, 8, 9],
         };
 
-        assert!(!report.valid_diffs());
-        assert!(!report.same_sign());
+        assert!(!report.safe());
     }
 }
