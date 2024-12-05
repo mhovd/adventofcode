@@ -25,6 +25,10 @@ impl Report {
         let signs = self.levels.iter().map(|&x| x.signum()).collect::<Vec<_>>();
         signs.iter().sum::<isize>().abs() == signs.len() as isize
     }
+
+    fn safe(&self) -> bool {
+        self.valid_diffs() && self.same_sign()
+    }
 }
 
 impl<'de> Deserialize<'de> for Report {
@@ -62,15 +66,13 @@ fn main() -> Result<()> {
         reports.push(report);
     }
 
-    dbg!(&reports.len());
+    dbg!(&reports);
 
     let mut safe_reports: Vec<Report> = Vec::new();
 
     // iterate over the reports
     for report in reports {
-        // calculate difference of i and i + 1
-
-        if report.valid_diffs() && report.same_sign() {
+        if report.safe() {
             safe_reports.push(report);
         }
     }
