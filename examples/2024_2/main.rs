@@ -75,8 +75,6 @@ fn main() -> Result<()> {
         reports.push(report);
     }
 
-    dbg!(&reports);
-
     let mut safe_reports: Vec<Report> = Vec::new();
 
     // iterate over the reports
@@ -107,6 +105,24 @@ mod tests {
     fn test_unsafe() {
         let report = Report {
             levels: vec![1, 2, 7, 8, 9],
+        };
+
+        assert!(!report.safe());
+    }
+
+    #[test]
+    fn test_unsafe_2() {
+        let report = Report {
+            levels: vec![1, 2, 7, 5, 3],
+        };
+
+        assert!(!report.safe());
+    }
+
+    #[test]
+    fn test_unsafe_3() {
+        let report = Report {
+            levels: vec![1, 2, 3, 2, 1],
         };
 
         assert!(!report.safe());
