@@ -9,6 +9,7 @@ struct Report {
 }
 
 impl Report {
+    // Any two adjacent levels differ by at least one and at most three.
     fn valid_diffs(&self) -> bool {
         // calculate difference of i and i + 1
         let mut diffs = Vec::new();
@@ -20,6 +21,7 @@ impl Report {
         diffs.iter().all(|&x| x >= 1 && x <= 3)
     }
 
+    // The levels are either all increasing or all decreasing.
     fn same_sign(&self) -> bool {
         // Check if the sign is the same for all diffs, i.e. abs(sum) == len
         let signs = self.levels.iter().map(|&x| x.signum()).collect::<Vec<_>>();
