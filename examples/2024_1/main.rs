@@ -31,13 +31,30 @@ fn main() -> Result<()> {
     left.sort();
     right.sort();
 
-    let mut sum: i64 = 0;
-    left.into_iter().zip(right.iter()).for_each(|(l, r)| {
-        let distance = r - l;
-        sum += distance.abs();
-    });
+    let mut distances = Vec::new();
+    left.clone()
+        .into_iter()
+        .zip(right.clone().iter())
+        .for_each(|(l, r)| {
+            let distance = r - l;
+            distances.push(distance);
+        });
 
+    let sum = distances.iter().sum::<i64>();
     println!("Sum: {}", sum);
+
+    let mut counts = Vec::new();
+    for l in left.clone() {
+        // count how many times l is in right
+        let count = right.iter().filter(|&r| *r == l).count() as i64;
+        counts.push(count);
+    }
+
+    let mut countsum = 0;
+    for i in 0..counts.len() {
+        countsum += counts[i] * left[i];
+    }
+    println!("Adjusted sum: {}", countsum);
 
     Ok(())
 }
